@@ -23,35 +23,18 @@ and speed.
 
 %package -n python2-%{modname}
 Summary:        %{summary}
-%{?python_provide:%python_provide python2-%{modname}}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
-BuildRequires:  python2-cffi >= 1.4.1
+BuildRequires:  python-cffi >= 1.4.1
 %if %{with check}
 BuildRequires:  python2-six
-BuildRequires:  python2-pytest >= 3.2.1
-BuildRequires:  python2-hypothesis >= 3.27.0
+BuildRequires:  python2-pytest
+BuildRequires:  python2-hypothesis
 %endif
 
 %description -n python2-%{modname} %{_description}
 
 Python 2 version.
-
-%package -n python3-%{modname}
-Summary:        %{summary}
-%{?python_provide:%python_provide python3-%{modname}}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-cffi >= 1.4.1
-%if %{with check}
-BuildRequires:  python3-six
-BuildRequires:  python3-pytest >= 3.2.1
-BuildRequires:  python3-hypothesis >= 3.27.0
-%endif
-
-%description -n python3-%{modname} %{_description}
-
-Python 3 version.
 
 %prep
 %autosetup -n %{modname}-%{version}
@@ -68,16 +51,13 @@ sed -i 's/@settings(deadline=1500, max_examples=5)/@settings(deadline=4000, max_
 %build
 export SODIUM_INSTALL=system
 %py2_build
-%py3_build
 
 %install
 %py2_install
-%py3_install
 
 %if %{with check}
 %check
-PYTHONPATH=%{buildroot}%{python2_sitearch} py.test-2 -v
-PYTHONPATH=%{buildroot}%{python3_sitearch} py.test-3 -v
+PYTHONPATH=%{buildroot}%{python2_sitearch} py.test -v
 %endif
 
 %files -n python2-%{modname}
@@ -85,12 +65,6 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} py.test-3 -v
 %doc README.rst
 %{python2_sitearch}/PyNaCl-*.egg-info/
 %{python2_sitearch}/nacl/
-
-%files -n python3-%{modname}
-%license LICENSE
-%doc README.rst
-%{python3_sitearch}/PyNaCl-*.egg-info/
-%{python3_sitearch}/nacl/
 
 %changelog
 * Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-2
