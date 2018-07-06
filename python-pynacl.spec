@@ -41,12 +41,8 @@ Python 2 version.
 # Remove bundled libsodium, to be sure
 rm -vrf src/libsodium/
 
-# ARM and s390x is too slow for upstream tests
-# See https://bugzilla.redhat.com/show_bug.cgi?id=1594901
-# And https://github.com/pyca/pynacl/issues/370
-%ifarch s390x %{arm}
-sed -i 's/@settings(deadline=1500, max_examples=5)/@settings(deadline=4000, max_examples=5)/' tests/test_pwhash.py
-%endif
+# fix API compatiblity issue
+sed -i 's/deadline=1500, //' tests/test_pwhash.py
 
 %build
 export SODIUM_INSTALL=system
