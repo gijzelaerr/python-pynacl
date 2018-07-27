@@ -63,6 +63,9 @@ PYTHONPATH=%{buildroot}%{python2_sitearch} py.test -v
 %{python2_sitearch}/nacl/
 
 %changelog
+* Fri Jul 27 2018 Gijs Molenaar <gijs@pythonic.nl> - 1.2.1-3
+- Backport to Centos 7
+
 * Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 1.2.1-2
 - Rebuilt for Python 3.7
 - Prolong the deadline for tests on s390x
